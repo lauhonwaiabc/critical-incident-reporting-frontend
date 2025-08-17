@@ -10,12 +10,16 @@
 <h1>CIR Reporting System</h1>
 <p>Welcome! Please choose:</p>
 
-<button class="btn" id="toInput">Fill In CIR Form</button>
+<button class="btn" id="toInput">Fill In CIR Form (Doctors)</button>
+<button class="btn" id="toNursingInput">Fill In CIR Form (Nursing)</button>
 <button class="btn" id="toOutput">Admin: Retrieve & Export Data</button>
 
 <script>
   document.getElementById('toInput').onclick = () => {
     window.location.href = 'InputView.htm';
+  };
+  document.getElementById('toNursingInput').onclick = () => {
+    window.location.href = 'NursingInputView.htm';
   };
   document.getElementById('toOutput').onclick = () => {
     window.location.href = 'OutputView.htm';
