@@ -1,353 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CIR Admin - Retrieve & Export</title>
-<link rel="stylesheet" href="cir-style.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>CIR Admin - Retrieve & Export</title>
+    <link rel="stylesheet" href="cir-style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 <h1>CIR Admin - Retrieve & Export</h1>
 <form id="dataForm">
-  <fieldset style="margin-bottom:1.5rem; padding:1rem;">
-    <legend><strong>Admin Password</strong></legend>
-    <label for="adminPassword">Admin Password:</label>
-    <input type="password" id="adminPassword" autocomplete="current-password" />
-  </fieldset>
-  <fieldset style="margin-bottom:1.5rem; padding:1rem;">
-    <legend><strong>Decryption For Single Record</strong></legend>
-    <label for="decryptPasswordSingle">Decryption Password:</label>
-    <input type="password" id="decryptPasswordSingle" /><br />
-    <label for="dataID" style="margin-top:0.8rem;">Data ID:</label>
-    <input type="text" id="dataID" />
-    <button type="button" id="btnFetchSingle" class="btn" style="margin-top:0.8rem;">Fetch Single Record & Decrypt</button>
-  </fieldset>
-  <fieldset style="margin-bottom:1.5rem; padding:1rem;">
-    <legend><strong>Decryption For All Records</strong></legend>
-    <label for="decryptPasswordAll">Decryption Password:</label>
-    <input type="password" id="decryptPasswordAll" />
-    <button type="button" id="btnFetchAll" class="btn" style="margin-top:0.8rem;">Fetch All Records & Decrypt</button>
-  </fieldset>
-  <fieldset style="margin-bottom:1.5rem; padding:1rem;">
-    <legend><strong>Reset Database</strong></legend>
-    <legend>Enter again to confirm</legend>
-    <label for="adminPasswordReset">Admin Password:</label>
-    <input type="password" id="adminPasswordReset" autocomplete="current-password" />
-    <button type="button" id="btnReset" class="btn" style="background:#f44336; color:white; margin-top:0.8rem;">Reset Entire Database (Delete All Records)</button>
-  </fieldset>
+    <fieldset style="margin-bottom:1.5rem; padding:1rem;">
+        <legend><strong>Admin Password</strong></legend>
+        <label for="adminPassword">Admin Password:</label>
+        <input type="password" id="adminPassword" autocomplete="current-password"/>
+    </fieldset>
+    <fieldset style="margin-bottom:1.5rem; padding:1rem;">
+        <legend><strong>Decryption For Single Record</strong></legend>
+        <label for="decryptPasswordSingle">Decryption Password:</label>
+        <input type="password" id="decryptPasswordSingle"/><br/>
+        <label for="dataID" style="margin-top:0.8rem;">Data ID:</label>
+        <input type="text" id="dataID"/>
+        <button type="button" id="btnFetchSingle" class="btn" style="margin-top:0.8rem;">Fetch Single Record & Decrypt
+        </button>
+    </fieldset>
+    <fieldset style="margin-bottom:1.5rem; padding:1rem;">
+        <legend><strong>Decryption For All Records</strong></legend>
+        <label for="decryptPasswordAll">Decryption Password:</label>
+        <input type="password" id="decryptPasswordAll"/>
+        <button type="button" id="btnFetchAll" class="btn" style="margin-top:0.8rem;">Fetch All Records & Decrypt
+        </button>
+    </fieldset>
+    <fieldset style="margin-bottom:1.5rem; padding:1rem;">
+        <legend><strong>Reset Database</strong></legend>
+        <legend>Enter again to confirm</legend>
+        <label for="adminPasswordReset">Admin Password:</label>
+        <input type="password" id="adminPasswordReset" autocomplete="current-password"/>
+        <button type="button" id="btnReset" class="btn" style="background:#f44336; color:white; margin-top:0.8rem;">
+            Reset Entire Database (Delete All Records)
+        </button>
+    </fieldset>
 </form>
 <div id="singleRecordContainer" style="overflow-x:auto; margin-top: 1rem;"></div>
 <div id="multipleRecordsSection" style="display:none; margin-top: 1rem;">
-  <h2>Doctor Records:</h2>
-  <div id="doctorRecordsContainer" data-records="" style="overflow-x:auto;"></div>
-  <div id="excelExportAreaDoctor" style="margin-top: 1rem; display:none;">
-    <button id="btnExportExcelDoctor" class="btn">Export Doctor Records to Excel</button>
-  </div>
-  <h2>Nursing Records:</h2>
-  <div id="nursingRecordsContainer" data-records="" style="overflow-x:auto;"></div>
-  <div id="excelExportAreaNursing" style="margin-top: 1rem; display:none;">
-    <button id="btnExportExcelNursing" class="btn">Export Nursing Records to Excel</button>
-  </div>
+    <h2>Doctor Records:</h2>
+    <div id="doctorRecordsContainer" data-records="" style="overflow-x:auto;"></div>
+    <div id="excelExportAreaDoctor" style="margin-top: 1rem; display:none;">
+        <button id="btnExportExcelDoctor" class="btn">Export Doctor Records to Excel</button>
+    </div>
+    <h2>Nursing Records:</h2>
+    <div id="nursingRecordsContainer" data-records="" style="overflow-x:auto;"></div>
+    <div id="excelExportAreaNursing" style="margin-top: 1rem; display:none;">
+        <button id="btnExportExcelNursing" class="btn">Export Nursing Records to Excel</button>
+    </div>
 </div>
 <p><a href="index.htm">Back to Home</a></p>
 <div id="message" style="margin-top:1rem; font-weight:bold; color:#c00;"></div>
 <script>
-const API_URL = 'https://api-gm7mkhepka-uc.a.run.app/api';
-
-function showMessage(msg, color = 'red') {
-  const el = document.getElementById('message');
-  el.style.color = color;
-  el.textContent = msg;
-}
-
-function showDecryptedRecords(records, adminPassword, containerId) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  container.dataset.records = JSON.stringify(records);
-  if (!records.length) {
-    container.textContent = 'No decrypted records to show.';
-    return;
-  }
-  const table = document.createElement('table');
-  table.style.width = '100%';
-  table.style.borderCollapse = 'collapse';
-  table.style.border = '1px solid #ccc';
-  const keys = Object.keys(records[0]);
-  const thead = table.createTHead();
-  const headerRow = thead.insertRow();
-  
-  keys.forEach(key => {
-    const th = document.createElement('th');
-    th.textContent = key === 'id' ? 'Record ID' : key;
-    th.style.border = '1px solid #ddd';
-    th.style.padding = '6px';
-    th.style.backgroundColor = '#f2f2f2';
-    headerRow.appendChild(th);
-  });
-  const actionTh = document.createElement('th');
-  actionTh.textContent = 'Actions';
-  actionTh.style.border = '1px solid #ddd';
-  actionTh.style.padding = '6px';
-  actionTh.style.backgroundColor = '#f2f2f2';
-  headerRow.appendChild(actionTh);
-
-  const tbody = table.createTBody();
-  records.forEach(rec => {
-    const row = tbody.insertRow();
-    keys.forEach(key => {
-      const cell = row.insertCell();
-      let val = rec[key];
-      if (Array.isArray(val)) val = val.join(', ');
-      if (typeof val === 'object' && val !== null) val = JSON.stringify(val);
-      cell.textContent = val || '';
-      cell.style.border = '1px solid #ddd';
-      cell.style.padding = '6px';
-      cell.style.verticalAlign = 'top';
-      cell.style.whiteSpace = 'pre-wrap';
+    document.cookie.split(";").forEach(function (c) {
+        document.cookie = c.replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
     });
-    // Add Delete button
-    const actionCell = row.insertCell();
-    const delBtn = document.createElement('button');
-    delBtn.textContent = 'Delete';
-    delBtn.style.background = '#f44336';
-    delBtn.style.color = 'white';
-    delBtn.className = 'btn';
-    delBtn.onclick = async () => {
-      if (!confirm(`Delete record ID ${rec.id}? This cannot be undone.`)) return;
-      try {
-        const response = await fetch(`${API_URL}/record/${rec.id}`, {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ adminPassword })
-        });
-        if (!response.ok) {
-          const err = await response.json();
-          showMessage(err.message || 'Failed to delete record.');
-          return;
+
+    const API_URL = 'https://api-gm7mkhepka-uc.a.run.app/api';
+
+    function showMessage(msg, color = 'red') {
+        const el = document.getElementById('message');
+        el.style.color = color;
+        el.textContent = msg;
+    }
+
+    function showDecryptedRecords(records, adminPassword, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        container.dataset.records = JSON.stringify(records);
+        if (!records.length) {
+            container.textContent = 'No decrypted records to show.';
+            return;
         }
-        showMessage(`Record ${rec.id} deleted.`, 'green');
-        document.getElementById('btnFetchAll').click();
-      } catch (err) {
-        showMessage('Error contacting backend: ' + err.message);
-      }
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        table.style.borderCollapse = 'collapse';
+        table.style.border = '1px solid #ccc';
+        const keys = Object.keys(records[0]);
+        const thead = table.createTHead();
+        const headerRow = thead.insertRow();
+
+        keys.forEach(key => {
+            const th = document.createElement('th');
+            th.textContent = key === 'id' ? 'Record ID' : key;
+            th.style.border = '1px solid #ddd';
+            th.style.padding = '6px';
+            th.style.backgroundColor = '#f2f2f2';
+            headerRow.appendChild(th);
+        });
+        const actionTh = document.createElement('th');
+        actionTh.textContent = 'Actions';
+        actionTh.style.border = '1px solid #ddd';
+        actionTh.style.padding = '6px';
+        actionTh.style.backgroundColor = '#f2f2f2';
+        headerRow.appendChild(actionTh);
+
+        const tbody = table.createTBody();
+        records.forEach(rec => {
+            const row = tbody.insertRow();
+            keys.forEach(key => {
+                const cell = row.insertCell();
+                let val = rec[key];
+                if (Array.isArray(val)) val = val.join(', ');
+                if (typeof val === 'object' && val !== null) val = JSON.stringify(val);
+                cell.textContent = val || '';
+                cell.style.border = '1px solid #ddd';
+                cell.style.padding = '6px';
+                cell.style.verticalAlign = 'top';
+                cell.style.whiteSpace = 'pre-wrap';
+            });
+            // Add Delete button
+            const actionCell = row.insertCell();
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Delete';
+            delBtn.style.background = '#f44336';
+            delBtn.style.color = 'white';
+            delBtn.className = 'btn';
+            delBtn.onclick = async () => {
+                if (!confirm(`Delete record ID ${rec.id}? This cannot be undone.`)) return;
+                try {
+                    const response = await fetch(`${API_URL}/record/${rec.id}`, {
+                        method: 'DELETE',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({adminPassword})
+                    });
+                    if (!response.ok) {
+                        const err = await response.json();
+                        showMessage(err.message || 'Failed to delete record.');
+                        return;
+                    }
+                    showMessage(`Record ${rec.id} deleted.`, 'green');
+                    document.getElementById('btnFetchAll').click();
+                } catch (err) {
+                    showMessage('Error contacting backend: ' + err.message);
+                }
+            };
+            actionCell.appendChild(delBtn);
+            actionCell.style.border = '1px solid #ddd';
+            actionCell.style.padding = '6px';
+            actionCell.style.textAlign = 'center';
+        });
+        container.appendChild(table);
+    }
+
+    function exportToExcel(dataArray, filenamePrefix = 'CIR_Records') {
+        if (!dataArray.length) {
+            alert('No data to export.');
+            return;
+        }
+        const ws = XLSX.utils.json_to_sheet(dataArray);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'CIR Records');
+        XLSX.writeFile(wb, `${filenamePrefix}_${new Date().toISOString().slice(0, 10)}.xlsx`);
+    }
+
+    // Show single record in standalone container
+    function showSingleRecord(record, adminPass) {
+        const container = document.getElementById('singleRecordContainer');
+        container.innerHTML = '';
+        document.getElementById('multipleRecordsSection').style.display = 'none';
+        if (!record) {
+            container.textContent = 'No decrypted record to show.';
+            return;
+        }
+        showDecryptedRecords([record], adminPass, 'singleRecordContainer');
+    }
+
+    // Clear displays
+    function clearSingleRecordDisplay() {
+        document.getElementById('singleRecordContainer').innerHTML = '';
+    }
+
+    function clearMultipleRecordsDisplay() {
+        document.getElementById('doctorRecordsContainer').innerHTML = '';
+        document.getElementById('nursingRecordsContainer').innerHTML = '';
+        document.getElementById('excelExportAreaDoctor').style.display = 'none';
+        document.getElementById('excelExportAreaNursing').style.display = 'none';
+        document.getElementById('multipleRecordsSection').style.display = 'none';
+    }
+
+    // Fetch Single Record & Decrypt on client
+    document.getElementById('btnFetchSingle').onclick = async () => {
+        showMessage('');
+        clearMultipleRecordsDisplay();
+        const adminPass = document.getElementById('adminPassword').value.trim();
+        const decryptPass = document.getElementById('decryptPasswordSingle').value.trim();
+        const dataID = document.getElementById('dataID').value.trim();
+        if (!adminPass) {
+            showMessage('Admin Password is required.');
+            return;
+        }
+        if (!decryptPass) {
+            showMessage('Decryption Password is required.');
+            return;
+        }
+        if (!dataID) {
+            showMessage('Data ID is required.');
+            return;
+        }
+        try {
+            const response = await fetch(`${API_URL}/record/${encodeURIComponent(dataID)}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({adminPassword: adminPass})
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                showMessage(err.message || 'Failed to fetch record.');
+                clearSingleRecordDisplay();
+                return;
+            }
+            const rec = await response.json();
+            if (!rec.encryptedData) {
+                showMessage('No encrypted data found.');
+                clearSingleRecordDisplay();
+                return;
+            }
+            // Decrypt in client
+            const bytes = CryptoJS.AES.decrypt(rec.encryptedData, decryptPass);
+            const decryptedStr = bytes.toString(CryptoJS.enc.Utf8);
+            if (!decryptedStr) {
+                showMessage('Decryption failed: Incorrect password or corrupted data.');
+                clearSingleRecordDisplay();
+                return;
+            }
+            const decryptedObj = JSON.parse(decryptedStr);
+            showSingleRecord({id: rec.id, ...decryptedObj}, adminPass);
+            showMessage('Single record decrypted successfully.', 'green');
+        } catch (err) {
+            showMessage('Error contacting backend or decrypting: ' + err.message);
+            clearSingleRecordDisplay();
+        }
     };
-    actionCell.appendChild(delBtn);
-    actionCell.style.border = '1px solid #ddd';
-    actionCell.style.padding = '6px';
-    actionCell.style.textAlign = 'center';
-  });
-  container.appendChild(table);
-}
 
-function exportToExcel(dataArray, filenamePrefix = 'CIR_Records') {
-  if (!dataArray.length) {
-    alert('No data to export.');
-    return;
-  }
-  const ws = XLSX.utils.json_to_sheet(dataArray);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'CIR Records');
-  XLSX.writeFile(wb, `${filenamePrefix}_${new Date().toISOString().slice(0, 10)}.xlsx`);
-}
+    // Fetch All Records & Decrypt client-side, separate doctor/nursing
+    document.getElementById('btnFetchAll').onclick = async () => {
+        showMessage('');
+        clearSingleRecordDisplay();
+        const adminPass = document.getElementById('adminPassword').value.trim();
+        const decryptPass = document.getElementById('decryptPasswordAll').value.trim();
+        if (!adminPass) {
+            showMessage('Admin Password is required.');
+            return;
+        }
+        if (!decryptPass) {
+            showMessage('Decryption Password is required.');
+            return;
+        }
+        try {
+            const response = await fetch(`${API_URL}/records/encrypted`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({adminPassword: adminPass})
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                showMessage(err.message || 'Failed to fetch records.');
+                clearMultipleRecordsDisplay();
+                return;
+            }
+            const encryptedRecords = await response.json();
+            if (!Array.isArray(encryptedRecords) || encryptedRecords.length === 0) {
+                showMessage('No records found.', 'red');
+                clearMultipleRecordsDisplay();
+                return;
+            }
+            const decryptedRecords = [];
+            encryptedRecords.forEach(rec => {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(rec.encryptedData, decryptPass);
+                    const decryptedStr = bytes.toString(CryptoJS.enc.Utf8);
+                    if (!decryptedStr) return;
+                    const decryptedObj = JSON.parse(decryptedStr);
+                    decryptedRecords.push({id: rec.id, ...decryptedObj});
+                } catch {
+                    // Optional: handle individual record decryption errors
+                }
+            });
+            const doctorRecords = decryptedRecords.filter(r => !r.formType || r.formType === 'doctor');
+            const nursingRecords = decryptedRecords.filter(r => r.formType === 'nursing');
+            // Show sections
+            document.getElementById('multipleRecordsSection').style.display = 'block';
+            // Render doctor records or show no data message
+            if (doctorRecords.length) {
+                showDecryptedRecords(doctorRecords, adminPass, 'doctorRecordsContainer');
+                document.getElementById('excelExportAreaDoctor').style.display = 'block';
+            } else {
+                document.getElementById('doctorRecordsContainer').textContent = 'No doctor records to display.';
+                document.getElementById('excelExportAreaDoctor').style.display = 'none';
+            }
+            // Render nursing records or show no data message
+            if (nursingRecords.length) {
+                showDecryptedRecords(nursingRecords, adminPass, 'nursingRecordsContainer');
+                document.getElementById('excelExportAreaNursing').style.display = 'block';
+            } else {
+                document.getElementById('nursingRecordsContainer').textContent = 'No nursing records to display.';
+                document.getElementById('excelExportAreaNursing').style.display = 'none';
+            }
+            showMessage(`Decrypted ${doctorRecords.length} doctor and ${nursingRecords.length} nursing record(s).`, 'green');
+        } catch (err) {
+            showMessage('Error contacting backend: ' + err.message);
+            clearMultipleRecordsDisplay();
+        }
+    };
 
-// Show single record in standalone container
-function showSingleRecord(record, adminPass) {
-  const container = document.getElementById('singleRecordContainer');
-  container.innerHTML = '';
-  document.getElementById('multipleRecordsSection').style.display = 'none';
-  if (!record) {
-    container.textContent = 'No decrypted record to show.';
-    return;
-  }
-  showDecryptedRecords([record], adminPass, 'singleRecordContainer');
-}
+    // Export buttons for Excel
+    document.getElementById('btnExportExcelDoctor').onclick = () => {
+        const container = document.getElementById('doctorRecordsContainer');
+        const records = JSON.parse(container.dataset.records || '[]');
+        exportToExcel(records, 'Doctor_Records');
+    };
 
-// Clear displays
-function clearSingleRecordDisplay() {
-  document.getElementById('singleRecordContainer').innerHTML = '';
-}
-function clearMultipleRecordsDisplay() {
-  document.getElementById('doctorRecordsContainer').innerHTML = '';
-  document.getElementById('nursingRecordsContainer').innerHTML = '';
-  document.getElementById('excelExportAreaDoctor').style.display = 'none';
-  document.getElementById('excelExportAreaNursing').style.display = 'none';
-  document.getElementById('multipleRecordsSection').style.display = 'none';
-}
+    document.getElementById('btnExportExcelNursing').onclick = () => {
+        const container = document.getElementById('nursingRecordsContainer');
+        const records = JSON.parse(container.dataset.records || '[]');
+        exportToExcel(records, 'Nursing_Records');
+    };
 
-// Fetch Single Record & Decrypt on client
-document.getElementById('btnFetchSingle').onclick = async () => {
-  showMessage('');
-  clearMultipleRecordsDisplay();
-  const adminPass = document.getElementById('adminPassword').value.trim();
-  const decryptPass = document.getElementById('decryptPasswordSingle').value.trim();
-  const dataID = document.getElementById('dataID').value.trim();
-  if (!adminPass) { showMessage('Admin Password is required.'); return; }
-  if (!decryptPass) { showMessage('Decryption Password is required.'); return; }
-  if (!dataID) { showMessage('Data ID is required.'); return; }
-  try {
-    const response = await fetch(`${API_URL}/record/${encodeURIComponent(dataID)}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminPassword: adminPass })
-    });
-    if (!response.ok) {
-      const err = await response.json();
-      showMessage(err.message || 'Failed to fetch record.');
-      clearSingleRecordDisplay();
-      return;
+    function exportToExcel(dataArray, filenamePrefix = 'CIR_Records') {
+        if (!dataArray.length) {
+            alert('No data to export.');
+            return;
+        }
+        const ws = XLSX.utils.json_to_sheet(dataArray);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'CIR Records');
+        XLSX.writeFile(wb, `${filenamePrefix}_${new Date().toISOString().slice(0, 10)}.xlsx`);
     }
-    const rec = await response.json();
-    if (!rec.encryptedData) {
-      showMessage('No encrypted data found.');
-      clearSingleRecordDisplay();
-      return;
-    }
-    // Decrypt in client
-    const bytes = CryptoJS.AES.decrypt(rec.encryptedData, decryptPass);
-    const decryptedStr = bytes.toString(CryptoJS.enc.Utf8);
-    if (!decryptedStr) {
-      showMessage('Decryption failed: Incorrect password or corrupted data.');
-      clearSingleRecordDisplay();
-      return;
-    }
-    const decryptedObj = JSON.parse(decryptedStr);
-    showSingleRecord({ id: rec.id, ...decryptedObj }, adminPass);
-    showMessage('Single record decrypted successfully.', 'green');
-  } catch (err) {
-    showMessage('Error contacting backend or decrypting: ' + err.message);
-    clearSingleRecordDisplay();
-  }
-};
 
-// Fetch All Records & Decrypt client-side, separate doctor/nursing
-document.getElementById('btnFetchAll').onclick = async () => {
-  showMessage('');
-  clearSingleRecordDisplay();
-  const adminPass = document.getElementById('adminPassword').value.trim();
-  const decryptPass = document.getElementById('decryptPasswordAll').value.trim();
-  if (!adminPass) { showMessage('Admin Password is required.'); return; }
-  if (!decryptPass) { showMessage('Decryption Password is required.'); return; }
-  try {
-    const response = await fetch(`${API_URL}/records/encrypted`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminPassword: adminPass })
-    });
-    if (!response.ok) {
-      const err = await response.json();
-      showMessage(err.message || 'Failed to fetch records.');
-      clearMultipleRecordsDisplay();
-      return;
-    }
-    const encryptedRecords = await response.json();
-    if (!Array.isArray(encryptedRecords) || encryptedRecords.length === 0) {
-      showMessage('No records found.', 'red');
-      clearMultipleRecordsDisplay();
-      return;
-    }
-    const decryptedRecords = [];
-    encryptedRecords.forEach(rec => {
-      try {
-        const bytes = CryptoJS.AES.decrypt(rec.encryptedData, decryptPass);
-        const decryptedStr = bytes.toString(CryptoJS.enc.Utf8);
-        if (!decryptedStr) return;
-        const decryptedObj = JSON.parse(decryptedStr);
-        decryptedRecords.push({ id: rec.id, ...decryptedObj });
-      } catch {
-        // Optional: handle individual record decryption errors
-      }
-    });
-    const doctorRecords = decryptedRecords.filter(r => !r.formType || r.formType === 'doctor');
-    const nursingRecords = decryptedRecords.filter(r => r.formType === 'nursing');
-    // Show sections
-    document.getElementById('multipleRecordsSection').style.display = 'block';
-    // Render doctor records or show no data message
-    if (doctorRecords.length) {
-      showDecryptedRecords(doctorRecords, adminPass, 'doctorRecordsContainer');
-      document.getElementById('excelExportAreaDoctor').style.display = 'block';
-    } else {
-      document.getElementById('doctorRecordsContainer').textContent = 'No doctor records to display.';
-      document.getElementById('excelExportAreaDoctor').style.display = 'none';
-    }
-    // Render nursing records or show no data message
-    if (nursingRecords.length) {
-      showDecryptedRecords(nursingRecords, adminPass, 'nursingRecordsContainer');
-      document.getElementById('excelExportAreaNursing').style.display = 'block';
-    } else {
-      document.getElementById('nursingRecordsContainer').textContent = 'No nursing records to display.';
-      document.getElementById('excelExportAreaNursing').style.display = 'none';
-    }
-    showMessage(`Decrypted ${doctorRecords.length} doctor and ${nursingRecords.length} nursing record(s).`, 'green');
-  } catch (err) {
-    showMessage('Error contacting backend: ' + err.message);
-    clearMultipleRecordsDisplay();
-  }
-};
+    // Reset Database button handler
+    document.getElementById('btnReset').onclick = async () => {
+        showMessage('');
+        const mainAdminPass = document.getElementById('adminPassword').value.trim();
+        const resetAdminPass = document.getElementById('adminPasswordReset').value.trim();
 
-// Export buttons for Excel
-document.getElementById('btnExportExcelDoctor').onclick = () => {
-  const container = document.getElementById('doctorRecordsContainer');
-  const records = JSON.parse(container.dataset.records || '[]');
-  exportToExcel(records, 'Doctor_Records');
-};
-
-document.getElementById('btnExportExcelNursing').onclick = () => {
-  const container = document.getElementById('nursingRecordsContainer');
-  const records = JSON.parse(container.dataset.records || '[]');
-  exportToExcel(records, 'Nursing_Records');
-};
-
-function exportToExcel(dataArray, filenamePrefix = 'CIR_Records') {
-  if (!dataArray.length) {
-    alert('No data to export.');
-    return;
-  }
-  const ws = XLSX.utils.json_to_sheet(dataArray);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'CIR Records');
-  XLSX.writeFile(wb, `${filenamePrefix}_${new Date().toISOString().slice(0, 10)}.xlsx`);
-}
-
-// Reset Database button handler
-document.getElementById('btnReset').onclick = async () => {
-  showMessage('');
-  const mainAdminPass = document.getElementById('adminPassword').value.trim();
-  const resetAdminPass = document.getElementById('adminPasswordReset').value.trim();
-
-  if (!mainAdminPass || !resetAdminPass) {
-    showMessage('Both admin password fields are required to confirm reset.');
-    return;
-  }
-  if (mainAdminPass !== resetAdminPass) {
-    showMessage('Admin passwords do not match. Please enter the same password.');
-    return;
-  }
-  if (!confirm('WARNING: This will permanently delete all records! Are you sure?')) {
-    return;
-  }
-  try {
-    const response = await fetch(`${API_URL}/reset`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminPassword: resetAdminPass })
-    });
-    if (!response.ok) {
-      const err = await response.json();
-      showMessage(err.message || 'Failed to reset database.');
-      return;
-    }
-    showMessage('All records deleted successfully.', 'green');
-    clearSingleRecordDisplay();
-    clearMultipleRecordsDisplay();
-    document.getElementById('multipleRecordsSection').style.display = 'none';
-    document.getElementById('adminPasswordReset').value = '';
-    document.getElementById('adminPassword').value = '';
-  } catch (err) {
-    showMessage('Error contacting backend: ' + err.message);
-  }
-};
+        if (!mainAdminPass || !resetAdminPass) {
+            showMessage('Both admin password fields are required to confirm reset.');
+            return;
+        }
+        if (mainAdminPass !== resetAdminPass) {
+            showMessage('Admin passwords do not match. Please enter the same password.');
+            return;
+        }
+        if (!confirm('WARNING: This will permanently delete all records! Are you sure?')) {
+            return;
+        }
+        try {
+            const response = await fetch(`${API_URL}/reset`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({adminPassword: resetAdminPass})
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                showMessage(err.message || 'Failed to reset database.');
+                return;
+            }
+            showMessage('All records deleted successfully.', 'green');
+            clearSingleRecordDisplay();
+            clearMultipleRecordsDisplay();
+            document.getElementById('multipleRecordsSection').style.display = 'none';
+            document.getElementById('adminPasswordReset').value = '';
+            document.getElementById('adminPassword').value = '';
+        } catch (err) {
+            showMessage('Error contacting backend: ' + err.message);
+        }
+    };
 </script>
 </body>
 </html>
