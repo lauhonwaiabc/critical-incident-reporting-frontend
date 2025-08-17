@@ -11,7 +11,7 @@
 
 <body>
 
-  <h1>CIR Reporting Form</h1>
+  <h1>NTWC A&OT CIR Reporting Form</h1>
 
   <form id="cirForm">
     <fieldset>
@@ -386,6 +386,8 @@
 
       const formData = collectFormData();
 
+      formData.formType = 'doctor';
+
       const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(formData), password).toString();
 
       // Change: send to backend API - update API_URL as needed
@@ -417,4 +419,3 @@
 </body>
 
 </html>
-
