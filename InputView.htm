@@ -2,279 +2,318 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CIR Reporting Form</title>
-  <link rel="stylesheet" href="cir-style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>CIR Reporting Form</title>
+    <link rel="stylesheet" href="cir-style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 
 <body>
 
-  <h1>NTWC A&OT CIR Reporting Form</h1>
+<h1>NTWC A&OT CIR Reporting Form</h1>
 
-  <form id="cirForm">
+<form id="cirForm">
     <fieldset>
-      <legend>(b) Date of incident:</legend>
-      <input type="date" id="dateIncident" name="dateIncident" />
+        <legend>(b) Date of incident:</legend>
+        <input type="date" id="dateIncident" name="dateIncident"/>
     </fieldset>
 
     <fieldset>
-      <legend>(c) Place (single choice):</legend>
-      <div class="radio-group" id="placeGroup">
-        <label><input type="radio" name="place" value="TMH" /> TMH</label>
-        <label><input type="radio" name="place" value="POH" /> POH</label>
-        <label><input type="radio" name="place" value="others" id="placeOthersRadio" /> Others</label>
-      </div>
-      <input type="text" id="placeOthersText" name="placeOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(c) Place (single choice):</legend>
+        <div class="radio-group" id="placeGroup">
+            <label><input type="radio" name="place" value="TMH"/> TMH</label>
+            <label><input type="radio" name="place" value="POH"/> POH</label>
+            <label><input type="radio" name="place" value="others" id="placeOthersRadio"/> Others</label>
+        </div>
+        <input type="text" id="placeOthersText" name="placeOthersText" class="free-text" placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(d) Who is reporting? (single choice):</legend>
-      <div class="radio-group">
-        <label><input type="radio" name="reporter" value="trainee or non-specialist" /> Trainee or Non-specialist</label>
-        <label><input type="radio" name="reporter" value="specialist" /> Specialist</label>
-      </div>
+        <legend>(d) Who is reporting? (single choice):</legend>
+        <div class="radio-group">
+            <label><input type="radio" name="reporter" value="trainee or non-specialist"/> Trainee or
+                Non-specialist</label>
+            <label><input type="radio" name="reporter" value="specialist"/> Specialist</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(e) How many hours of working before the incident occurred? (single choice):</legend>
-      <div class="radio-group">
-        <label><input type="radio" name="workingHours" value="0-4" /> 0-4</label>
-        <label><input type="radio" name="workingHours" value="4-8" /> 4-8</label>
-        <label><input type="radio" name="workingHours" value=">8" /> &gt;8</label>
-      </div>
+        <legend>(e) How many hours of working before the incident occurred? (single choice):</legend>
+        <div class="radio-group">
+            <label><input type="radio" name="workingHours" value="0-4"/> 0-4</label>
+            <label><input type="radio" name="workingHours" value="4-8"/> 4-8</label>
+            <label><input type="radio" name="workingHours" value=">8"/> &gt;8</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(f) Sex (single choice):</legend>
-      <div class="radio-group">
-        <label><input type="radio" name="sex" value="Male" /> Male</label>
-        <label><input type="radio" name="sex" value="Female" /> Female</label>
-      </div>
+        <legend>(f) Sex (single choice):</legend>
+        <div class="radio-group">
+            <label><input type="radio" name="sex" value="Male"/> Male</label>
+            <label><input type="radio" name="sex" value="Female"/> Female</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(g) Age (years old):</legend>
-      <input type="number" min="0" id="age" name="age" />
+        <legend>(g) Age (years old):</legend>
+        <input type="number" min="0" id="age" name="age"/>
     </fieldset>
 
     <fieldset>
-      <legend>(h) ASA class (single choice):</legend>
-      <div class="radio-group">
-        <label><input type="radio" name="asaClass" value="I" /> I</label>
-        <label><input type="radio" name="asaClass" value="II" /> II</label>
-        <label><input type="radio" name="asaClass" value="III" /> III</label>
-        <label><input type="radio" name="asaClass" value="IV" /> IV</label>
-        <label><input type="radio" name="asaClass" value="V" /> V</label>
-        <label><input type="radio" name="asaClass" value="VI" /> VI</label>
-      </div>
+        <legend>(h) ASA class (single choice):</legend>
+        <div class="radio-group">
+            <label><input type="radio" name="asaClass" value="I"/> I</label>
+            <label><input type="radio" name="asaClass" value="II"/> II</label>
+            <label><input type="radio" name="asaClass" value="III"/> III</label>
+            <label><input type="radio" name="asaClass" value="IV"/> IV</label>
+            <label><input type="radio" name="asaClass" value="V"/> V</label>
+            <label><input type="radio" name="asaClass" value="VI"/> VI</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(i) OT category (single choice):</legend>
-      <div class="radio-group">
-        <label><input type="radio" name="otCategory" value="Emergency" /> Emergency</label>
-        <label><input type="radio" name="otCategory" value="Elective" /> Elective</label>
-      </div>
+        <legend>(i) OT category (single choice):</legend>
+        <div class="radio-group">
+            <label><input type="radio" name="otCategory" value="Emergency"/> Emergency</label>
+            <label><input type="radio" name="otCategory" value="Elective"/> Elective</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(j) Co-morbidity:</legend>
-      <textarea id="comorbidity" name="comorbidity" rows="2" placeholder="Free text"></textarea>
+        <legend>(j) Co-morbidity:</legend>
+        <textarea id="comorbidity" name="comorbidity" rows="2" placeholder="Free text"></textarea>
     </fieldset>
 
     <fieldset>
-      <legend>(k) Anaesthesia technique (multi choice):</legend>
-      <div class="checkbox-group" id="anaesthesiaTechniqueGroup">
-        <label><input type="checkbox" name="anaesthesiaTechnique" value="GA" /> GA</label>
-        <label><input type="checkbox" name="anaesthesiaTechnique" value="SA" /> SA</label>
-        <label><input type="checkbox" name="anaesthesiaTechnique" value="EA" /> EA</label>
-        <label><input type="checkbox" name="anaesthesiaTechnique" value="MAC" /> MAC</label>
-        <label><input type="checkbox" name="anaesthesiaTechnique" value="CSA" /> CSA</label>
-        <label><input type="checkbox" name="anaesthesiaTechnique" value="CSE" /> CSE</label>
-        <label><input type="checkbox" name="anaesthesiaTechnique" value="RA" id="anaesthesiaRA" /> RA</label>
-      </div>
-      <input type="text" id="raText" name="raText" class="free-text" placeholder="Please specify RA details" />
+        <legend>(k) Anaesthesia technique (multi choice):</legend>
+        <div class="checkbox-group" id="anaesthesiaTechniqueGroup">
+            <label><input type="checkbox" name="anaesthesiaTechnique" value="GA"/> GA</label>
+            <label><input type="checkbox" name="anaesthesiaTechnique" value="SA"/> SA</label>
+            <label><input type="checkbox" name="anaesthesiaTechnique" value="EA"/> EA</label>
+            <label><input type="checkbox" name="anaesthesiaTechnique" value="MAC"/> MAC</label>
+            <label><input type="checkbox" name="anaesthesiaTechnique" value="CSA"/> CSA</label>
+            <label><input type="checkbox" name="anaesthesiaTechnique" value="CSE"/> CSE</label>
+            <label><input type="checkbox" name="anaesthesiaTechnique" value="RA" id="anaesthesiaRA"/> RA</label>
+        </div>
+        <input type="text" id="raText" name="raText" class="free-text" placeholder="Please specify RA details"/>
     </fieldset>
 
     <fieldset>
-      <legend>(l) Time of the incident:</legend>
-      <input type="time" id="timeIncident" name="timeIncident" />
+        <legend>(l) Time of the incident:</legend>
+        <input type="time" id="timeIncident" name="timeIncident"/>
     </fieldset>
 
     <fieldset>
-      <legend>(m) Place of the incident (single choice):</legend>
-      <div class="radio-group" id="placeIncidentGroup">
-        <label><input type="radio" name="placeIncident" value="induction room" /> induction room</label>
-        <label><input type="radio" name="placeIncident" value="operation theatre" /> operation theatre</label>
-        <label><input type="radio" name="placeIncident" value="recovery room" /> recovery room</label>
-        <label><input type="radio" name="placeIncident" value="others" id="placeIncidentOthersRadio" /> others</label>
-      </div>
-      <input type="text" id="placeIncidentOthersText" name="placeIncidentOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(m) Place of the incident (single choice):</legend>
+        <div class="radio-group" id="placeIncidentGroup">
+            <label><input type="radio" name="placeIncident" value="induction room"/> induction room</label>
+            <label><input type="radio" name="placeIncident" value="operation theatre"/> operation theatre</label>
+            <label><input type="radio" name="placeIncident" value="recovery room"/> recovery room</label>
+            <label><input type="radio" name="placeIncident" value="others" id="placeIncidentOthersRadio"/>
+                others</label>
+        </div>
+        <input type="text" id="placeIncidentOthersText" name="placeIncidentOthersText" class="free-text"
+               placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(n) Phase of anaesthesia (single choice):</legend>
-      <div class="radio-group" id="phaseGroup">
-        <label><input type="radio" name="phaseAnaesthesia" value="preoperative & pre-induction" /> preoperative & pre-induction</label>
-        <label><input type="radio" name="phaseAnaesthesia" value="induction" /> induction</label>
-        <label><input type="radio" name="phaseAnaesthesia" value="intra-operative" /> intra-operative</label>
-        <label><input type="radio" name="phaseAnaesthesia" value="during emergence" /> during emergence</label>
-        <label><input type="radio" name="phaseAnaesthesia" value="others" id="phaseOthersRadio" /> others</label>
-      </div>
-      <input type="text" id="phaseOthersText" name="phaseOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(n) Phase of anaesthesia (single choice):</legend>
+        <div class="radio-group" id="phaseGroup">
+            <label><input type="radio" name="phaseAnaesthesia" value="preoperative & pre-induction"/> preoperative &
+                pre-induction</label>
+            <label><input type="radio" name="phaseAnaesthesia" value="induction"/> induction</label>
+            <label><input type="radio" name="phaseAnaesthesia" value="intra-operative"/> intra-operative</label>
+            <label><input type="radio" name="phaseAnaesthesia" value="during emergence"/> during emergence</label>
+            <label><input type="radio" name="phaseAnaesthesia" value="others" id="phaseOthersRadio"/> others</label>
+        </div>
+        <input type="text" id="phaseOthersText" name="phaseOthersText" class="free-text" placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(o) Detection of the incident (single choice):</legend>
-      <div class="radio-group" id="detectionGroup">
-        <label><input type="radio" name="detectionIncident" value="situation awareness" /> situation awareness</label>
-        <label><input type="radio" name="detectionIncident" value="clinical observation" /> clinical observation</label>
-        <label><input type="radio" name="detectionIncident" value="monitor alarm" /> monitor alarm</label>
-        <label><input type="radio" name="detectionIncident" value="others" id="detectionOthersRadio" /> others</label>
-      </div>
-      <input type="text" id="detectionOthersText" name="detectionOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(o) Detection of the incident (single choice):</legend>
+        <div class="radio-group" id="detectionGroup">
+            <label><input type="radio" name="detectionIncident" value="situation awareness"/> situation
+                awareness</label>
+            <label><input type="radio" name="detectionIncident" value="clinical observation"/> clinical
+                observation</label>
+            <label><input type="radio" name="detectionIncident" value="monitor alarm"/> monitor alarm</label>
+            <label><input type="radio" name="detectionIncident" value="others" id="detectionOthersRadio"/>
+                others</label>
+        </div>
+        <input type="text" id="detectionOthersText" name="detectionOthersText" class="free-text"
+               placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(p) Surgical category (single choice):</legend>
-      <div class="radio-group" id="surgicalCategoryGroup">
-        <label><input type="radio" name="surgicalCategory" value="dental" /> dental</label>
-        <label><input type="radio" name="surgicalCategory" value="ENT" /> ENT</label>
-        <label><input type="radio" name="surgicalCategory" value="general surgery" /> general surgery</label>
-        <label><input type="radio" name="surgicalCategory" value="gynaecological" /> gynaecological</label>
-        <label><input type="radio" name="surgicalCategory" value="neurological" /> neurological</label>
-        <label><input type="radio" name="surgicalCategory" value="obstetrics" /> obstetrics</label>
-        <label><input type="radio" name="surgicalCategory" value="orthopaedics" /> orthopaedics</label>
-        <label><input type="radio" name="surgicalCategory" value="urology" /> urology</label>
-        <label><input type="radio" name="surgicalCategory" value="others" id="surgicalOthersRadio" /> others</label>
-      </div>
-      <input type="text" id="surgicalOthersText" name="surgicalOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(p) Surgical category (single choice):</legend>
+        <div class="radio-group" id="surgicalCategoryGroup">
+            <label><input type="radio" name="surgicalCategory" value="dental"/> dental</label>
+            <label><input type="radio" name="surgicalCategory" value="ENT"/> ENT</label>
+            <label><input type="radio" name="surgicalCategory" value="general surgery"/> general surgery</label>
+            <label><input type="radio" name="surgicalCategory" value="gynaecological"/> gynaecological</label>
+            <label><input type="radio" name="surgicalCategory" value="neurological"/> neurological</label>
+            <label><input type="radio" name="surgicalCategory" value="obstetrics"/> obstetrics</label>
+            <label><input type="radio" name="surgicalCategory" value="orthopaedics"/> orthopaedics</label>
+            <label><input type="radio" name="surgicalCategory" value="urology"/> urology</label>
+            <label><input type="radio" name="surgicalCategory" value="others" id="surgicalOthersRadio"/> others</label>
+        </div>
+        <input type="text" id="surgicalOthersText" name="surgicalOthersText" class="free-text"
+               placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(q) Name of operation and operative diagnosis:</legend>
-      <textarea id="operationDiagnosis" name="operationDiagnosis" rows="2" placeholder="Free text"></textarea>
+        <legend>(q) Name of operation and operative diagnosis:</legend>
+        <textarea id="operationDiagnosis" name="operationDiagnosis" rows="2" placeholder="Free text"></textarea>
     </fieldset>
 
     <fieldset>
-      <legend>(r) What happened? Description of the incident and management:</legend>
-      <textarea id="incidentDescription" name="incidentDescription" rows="4" placeholder="Free text"></textarea>
+        <legend>(r) What happened? Description of the incident and management:</legend>
+        <textarea id="incidentDescription" name="incidentDescription" rows="4" placeholder="Free text"></textarea>
     </fieldset>
 
     <fieldset>
-      <legend>(s) Severity (single choice):</legend>
-      <div class="radio-group">
-        <label><input type="radio" name="severity" value="no physiological change" /> no physiological change</label>
-        <label><input type="radio" name="severity" value="minor or transient physiological change" /> minor or transient physiological change</label>
-        <label><input type="radio" name="severity" value="major physiological change" /> major physiological change</label>
-      </div>
+        <legend>(s) Severity (single choice):</legend>
+        <div class="radio-group">
+            <label><input type="radio" name="severity" value="no physiological change"/> no physiological change</label>
+            <label><input type="radio" name="severity" value="minor or transient physiological change"/> minor or
+                transient physiological change</label>
+            <label><input type="radio" name="severity" value="major physiological change"/> major physiological
+                change</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(t) Patient's outcome (multi choice):</legend>
-      <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 500px;">
-        <label><input type="checkbox" name="patientOutcome" value="nil" /> nil</label>
-        <label><input type="checkbox" name="patientOutcome" value="OT postponed or cancelled" /> OT postponed or cancelled</label>
-        <label><input type="checkbox" name="patientOutcome" value="prolonged stay in recovery room" /> prolonged stay in recovery room</label>
-        <label><input type="checkbox" name="patientOutcome" value="unexpected ICU admission" /> unexpected ICU admission</label>
-        <label><input type="checkbox" name="patientOutcome" value="physical injury" /> physical injury</label>
-        <label><input type="checkbox" name="patientOutcome" value="death" /> death</label>
-        <label><input type="checkbox" name="patientOutcome" value="unplanned hospitalization of day surgery patient" /> unplanned hospitalization of day surgery patient</label>
-        <label><input type="checkbox" name="patientOutcome" value="others" id="outcomeOthersCheckbox" /> others</label>
-      </div>
-      <input type="text" id="outcomeOthersText" name="outcomeOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(t) Patient's outcome (multi choice):</legend>
+        <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 500px;">
+            <label><input type="checkbox" name="patientOutcome" value="nil"/> nil</label>
+            <label><input type="checkbox" name="patientOutcome" value="OT postponed or cancelled"/> OT postponed or
+                cancelled</label>
+            <label><input type="checkbox" name="patientOutcome" value="prolonged stay in recovery room"/> prolonged stay
+                in recovery room</label>
+            <label><input type="checkbox" name="patientOutcome" value="unexpected ICU admission"/> unexpected ICU
+                admission</label>
+            <label><input type="checkbox" name="patientOutcome" value="physical injury"/> physical injury</label>
+            <label><input type="checkbox" name="patientOutcome" value="death"/> death</label>
+            <label><input type="checkbox" name="patientOutcome"
+                          value="unplanned hospitalization of day surgery patient"/> unplanned hospitalization of day
+                surgery patient</label>
+            <label><input type="checkbox" name="patientOutcome" value="others" id="outcomeOthersCheckbox"/>
+                others</label>
+        </div>
+        <input type="text" id="outcomeOthersText" name="outcomeOthersText" class="free-text"
+               placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(u) Factor causing the incident (multi choice):</legend>
-      <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 600px;">
-        <label><input type="checkbox" name="factorCausing" value="inadequate assessment or preparation" /> inadequate assessment or preparation</label>
-        <label><input type="checkbox" name="factorCausing" value="inadequate knowledge" /> inadequate knowledge</label>
-        <label><input type="checkbox" name="factorCausing" value="inexperience" /> inexperience</label>
-        <label><input type="checkbox" name="factorCausing" value="inattention" /> inattention</label>
-        <label><input type="checkbox" name="factorCausing" value="judgement error" /> judgement error</label>
-        <label><input type="checkbox" name="factorCausing" value="fatigue" /> fatigue</label>
-        <label><input type="checkbox" name="factorCausing" value="distraction" /> distraction</label>
-        <label><input type="checkbox" name="factorCausing" value="fault of technique" /> fault of technique</label>
-        <label><input type="checkbox" name="factorCausing" value="inadequate assistance" /> inadequate assistance</label>
-        <label><input type="checkbox" name="factorCausing" value="equipment related" /> equipment related</label>
-        <label><input type="checkbox" name="factorCausing" value="monitor related" /> monitor related</label>
-        <label><input type="checkbox" name="factorCausing" value="patient pre-existing condition" /> patient pre-existing condition</label>
-        <label><input type="checkbox" name="factorCausing" value="surgical contribution" /> surgical contribution</label>
-        <label><input type="checkbox" name="factorCausing" value="nursing contribution" /> nursing contribution</label>
-        <label><input type="checkbox" name="factorCausing" value="others" id="factorOthersCheckbox" /> others</label>
-      </div>
-      <input type="text" id="factorOthersText" name="factorOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(u) Factor causing the incident (multi choice):</legend>
+        <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 600px;">
+            <label><input type="checkbox" name="factorCausing" value="inadequate assessment or preparation"/> inadequate
+                assessment or preparation</label>
+            <label><input type="checkbox" name="factorCausing" value="inadequate knowledge"/> inadequate
+                knowledge</label>
+            <label><input type="checkbox" name="factorCausing" value="inexperience"/> inexperience</label>
+            <label><input type="checkbox" name="factorCausing" value="inattention"/> inattention</label>
+            <label><input type="checkbox" name="factorCausing" value="judgement error"/> judgement error</label>
+            <label><input type="checkbox" name="factorCausing" value="fatigue"/> fatigue</label>
+            <label><input type="checkbox" name="factorCausing" value="distraction"/> distraction</label>
+            <label><input type="checkbox" name="factorCausing" value="fault of technique"/> fault of technique</label>
+            <label><input type="checkbox" name="factorCausing" value="inadequate assistance"/> inadequate
+                assistance</label>
+            <label><input type="checkbox" name="factorCausing" value="equipment related"/> equipment related</label>
+            <label><input type="checkbox" name="factorCausing" value="monitor related"/> monitor related</label>
+            <label><input type="checkbox" name="factorCausing" value="patient pre-existing condition"/> patient
+                pre-existing condition</label>
+            <label><input type="checkbox" name="factorCausing" value="surgical contribution"/> surgical
+                contribution</label>
+            <label><input type="checkbox" name="factorCausing" value="nursing contribution"/> nursing
+                contribution</label>
+            <label><input type="checkbox" name="factorCausing" value="others" id="factorOthersCheckbox"/> others</label>
+        </div>
+        <input type="text" id="factorOthersText" name="factorOthersText" class="free-text"
+               placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(v) How to prevent the incident (multi choice):</legend>
-      <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 600px;">
-        <label><input type="checkbox" name="preventionMethods" value="addition personnel" /> addition personnel</label>
-        <label><input type="checkbox" name="preventionMethods" value="better communication" /> better communication</label>
-        <label><input type="checkbox" name="preventionMethods" value="better education or training" /> better education or training</label>
-        <label><input type="checkbox" name="preventionMethods" value="better supervision" /> better supervision</label>
-        <label><input type="checkbox" name="preventionMethods" value="development of algorithm or protocol" /> development of algorithm or protocol</label>
-        <label><input type="checkbox" name="preventionMethods" value="better maintenance of equipment or monitor" /> better maintenance of equipment or monitor</label>
-        <label><input type="checkbox" name="preventionMethods" value="others" id="preventionOthersCheckbox" /> others</label>
-      </div>
-      <input type="text" id="preventionOthersText" name="preventionOthersText" class="free-text" placeholder="Please specify" />
+        <legend>(v) How to prevent the incident (multi choice):</legend>
+        <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 600px;">
+            <label><input type="checkbox" name="preventionMethods" value="addition personnel"/> addition
+                personnel</label>
+            <label><input type="checkbox" name="preventionMethods" value="better communication"/> better
+                communication</label>
+            <label><input type="checkbox" name="preventionMethods" value="better education or training"/> better
+                education or training</label>
+            <label><input type="checkbox" name="preventionMethods" value="better supervision"/> better
+                supervision</label>
+            <label><input type="checkbox" name="preventionMethods" value="development of algorithm or protocol"/>
+                development of algorithm or protocol</label>
+            <label><input type="checkbox" name="preventionMethods" value="better maintenance of equipment or monitor"/>
+                better maintenance of equipment or monitor</label>
+            <label><input type="checkbox" name="preventionMethods" value="others" id="preventionOthersCheckbox"/> others</label>
+        </div>
+        <input type="text" id="preventionOthersText" name="preventionOthersText" class="free-text"
+               placeholder="Please specify"/>
     </fieldset>
 
     <fieldset>
-      <legend>(w) In your opinion, was the incident preventable? (single choice):</legend>
-      <div class="radio-group">
-        <label><input type="radio" name="preventable" value="preventable" /> preventable</label>
-        <label><input type="radio" name="preventable" value="not preventable" /> not preventable</label>
-      </div>
+        <legend>(w) In your opinion, was the incident preventable? (single choice):</legend>
+        <div class="radio-group">
+            <label><input type="radio" name="preventable" value="preventable"/> preventable</label>
+            <label><input type="radio" name="preventable" value="not preventable"/> not preventable</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(x) Category of incident (multi choice):</legend>
-      <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 500px;">
-        <label><input type="checkbox" name="incidentCategory" value="Respiratory" /> Respiratory</label>
-        <label><input type="checkbox" name="incidentCategory" value="CVS" /> CVS</label>
-        <label><input type="checkbox" name="incidentCategory" value="CNS" /> CNS</label>
-        <label><input type="checkbox" name="incidentCategory" value="Drug related" /> Drug related</label>
-        <label><input type="checkbox" name="incidentCategory" value="Patient related" /> Patient related</label>
-        <label><input type="checkbox" name="incidentCategory" value="Equipment related" /> Equipment related</label>
-        <label><input type="checkbox" name="incidentCategory" value="Regional anaesthesia related" /> Regional anaesthesia related</label>
-        <label><input type="checkbox" name="incidentCategory" value="Neuraxial anaesthesia related" /> Neuraxial anaesthesia related</label>
-        <label><input type="checkbox" name="incidentCategory" value="Miscellaneous" /> Miscellaneous</label>
-      </div>
+        <legend>(x) Category of incident (multi choice):</legend>
+        <div class="checkbox-group" style="columns: 2; column-gap: 1.5rem; max-width: 500px;">
+            <label><input type="checkbox" name="incidentCategory" value="Respiratory"/> Respiratory</label>
+            <label><input type="checkbox" name="incidentCategory" value="CVS"/> CVS</label>
+            <label><input type="checkbox" name="incidentCategory" value="CNS"/> CNS</label>
+            <label><input type="checkbox" name="incidentCategory" value="Drug related"/> Drug related</label>
+            <label><input type="checkbox" name="incidentCategory" value="Patient related"/> Patient related</label>
+            <label><input type="checkbox" name="incidentCategory" value="Equipment related"/> Equipment related</label>
+            <label><input type="checkbox" name="incidentCategory" value="Regional anaesthesia related"/> Regional
+                anaesthesia related</label>
+            <label><input type="checkbox" name="incidentCategory" value="Neuraxial anaesthesia related"/> Neuraxial
+                anaesthesia related</label>
+            <label><input type="checkbox" name="incidentCategory" value="Miscellaneous"/> Miscellaneous</label>
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>(y) HN number (optional):</legend>
-      <input type="text" id="hnNumber" name="hnNumber" />
+        <legend>(y) HN number (optional):</legend>
+        <input type="text" id="hnNumber" name="hnNumber"/>
     </fieldset>
 
     <fieldset>
-      <legend>Encryption Password:</legend>
-      <input type="password" id="encPassword" required />
+        <legend>Encryption Password:</legend>
+        <input type="password" id="encPassword" required/>
     </fieldset>
 
     <button type="submit" class="btn">Submit (Data will be encrypted)</button>
-  </form>
+</form>
 
-  <p><a href="index.htm">Back to Home</a></p>
+<p><a href="index.htm">Back to Home</a></p>
 
-  <script>
+<script>
+    document.cookie.split(";").forEach(function (c) {
+        document.cookie = c.replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+
     // Toggle free-text inputs based on 'others' or RA checkbox selections
     function toggleFreeText(radioSelector, textId) {
-      document.querySelectorAll(radioSelector).forEach(radio => {
-        radio.addEventListener('change', () => {
-          const textInput = document.getElementById(textId);
-          if (radio.checked) {
-            textInput.style.display = 'block';
-          } else {
-            textInput.style.display = 'none';
-            textInput.value = '';
-          }
+        document.querySelectorAll(radioSelector).forEach(radio => {
+            radio.addEventListener('change', () => {
+                const textInput = document.getElementById(textId);
+                if (radio.checked) {
+                    textInput.style.display = 'block';
+                } else {
+                    textInput.style.display = 'none';
+                    textInput.value = '';
+                }
+            });
         });
-      });
     }
 
     toggleFreeText('input[name="place"][value="others"]', 'placeOthersText');
@@ -284,138 +323,138 @@
     toggleFreeText('input[name="surgicalCategory"][value="others"]', 'surgicalOthersText');
 
     document.getElementById('anaesthesiaRA').addEventListener('change', function () {
-      const input = document.getElementById('raText');
-      input.style.display = this.checked ? 'block' : 'none';
-      if (!this.checked) input.value = '';
+        const input = document.getElementById('raText');
+        input.style.display = this.checked ? 'block' : 'none';
+        if (!this.checked) input.value = '';
     });
 
     ['outcomeOthersCheckbox', 'factorOthersCheckbox', 'preventionOthersCheckbox'].forEach(id => {
-      document.getElementById(id).addEventListener('change', function () {
-        const inputId = id.replace('Checkbox', 'Text');
-        const input = document.getElementById(inputId);
-        input.style.display = this.checked ? 'block' : 'none';
-        if (!this.checked) input.value = '';
-      });
+        document.getElementById(id).addEventListener('change', function () {
+            const inputId = id.replace('Checkbox', 'Text');
+            const input = document.getElementById(inputId);
+            input.style.display = this.checked ? 'block' : 'none';
+            if (!this.checked) input.value = '';
+        });
     });
 
     function getCheckedValues(name) {
-      return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value);
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value);
     }
 
     function getRadioValue(name) {
-      const checked = document.querySelector(`input[name="${name}"]:checked`);
-      return checked ? checked.value : null;
+        const checked = document.querySelector(`input[name="${name}"]:checked`);
+        return checked ? checked.value : null;
     }
 
     function collectFormData() {
-      const formData = {
-        dateIncident: document.getElementById('dateIncident').value || null,
-        place: getRadioValue('place'),
-        placeOthersText: null,
-        reporter: getRadioValue('reporter'),
-        workingHours: getRadioValue('workingHours'),
-        sex: getRadioValue('sex'),
-        age: document.getElementById('age').value || null,
-        asaClass: getRadioValue('asaClass'),
-        otCategory: getRadioValue('otCategory'),
-        comorbidity: document.getElementById('comorbidity').value.trim() || null,
-        anaesthesiaTechnique: getCheckedValues('anaesthesiaTechnique'),
-        raText: null,
-        timeIncident: document.getElementById('timeIncident').value || null,
-        placeIncident: getRadioValue('placeIncident'),
-        placeIncidentOthersText: null,
-        phaseAnaesthesia: getRadioValue('phaseAnaesthesia'),
-        phaseOthersText: null,
-        detectionIncident: getRadioValue('detectionIncident'),
-        detectionOthersText: null,
-        surgicalCategory: getRadioValue('surgicalCategory'),
-        surgicalOthersText: null,
-        operationDiagnosis: document.getElementById('operationDiagnosis').value.trim() || null,
-        incidentDescription: document.getElementById('incidentDescription').value.trim() || null,
-        severity: getRadioValue('severity'),
-        patientOutcome: getCheckedValues('patientOutcome'),
-        outcomeOthersText: null,
-        factorCausing: getCheckedValues('factorCausing'),
-        factorOthersText: null,
-        preventionMethods: getCheckedValues('preventionMethods'),
-        preventionOthersText: null,
-        preventable: getRadioValue('preventable'),
-        incidentCategory: getCheckedValues('incidentCategory'),
-        hnNumber: document.getElementById('hnNumber').value.trim() || null,
-        timestamp: new Date().toISOString()
-      };
+        const formData = {
+            dateIncident: document.getElementById('dateIncident').value || null,
+            place: getRadioValue('place'),
+            placeOthersText: null,
+            reporter: getRadioValue('reporter'),
+            workingHours: getRadioValue('workingHours'),
+            sex: getRadioValue('sex'),
+            age: document.getElementById('age').value || null,
+            asaClass: getRadioValue('asaClass'),
+            otCategory: getRadioValue('otCategory'),
+            comorbidity: document.getElementById('comorbidity').value.trim() || null,
+            anaesthesiaTechnique: getCheckedValues('anaesthesiaTechnique'),
+            raText: null,
+            timeIncident: document.getElementById('timeIncident').value || null,
+            placeIncident: getRadioValue('placeIncident'),
+            placeIncidentOthersText: null,
+            phaseAnaesthesia: getRadioValue('phaseAnaesthesia'),
+            phaseOthersText: null,
+            detectionIncident: getRadioValue('detectionIncident'),
+            detectionOthersText: null,
+            surgicalCategory: getRadioValue('surgicalCategory'),
+            surgicalOthersText: null,
+            operationDiagnosis: document.getElementById('operationDiagnosis').value.trim() || null,
+            incidentDescription: document.getElementById('incidentDescription').value.trim() || null,
+            severity: getRadioValue('severity'),
+            patientOutcome: getCheckedValues('patientOutcome'),
+            outcomeOthersText: null,
+            factorCausing: getCheckedValues('factorCausing'),
+            factorOthersText: null,
+            preventionMethods: getCheckedValues('preventionMethods'),
+            preventionOthersText: null,
+            preventable: getRadioValue('preventable'),
+            incidentCategory: getCheckedValues('incidentCategory'),
+            hnNumber: document.getElementById('hnNumber').value.trim() || null,
+            timestamp: new Date().toISOString()
+        };
 
-      if (formData.place === 'others') {
-        formData.placeOthersText = document.getElementById('placeOthersText').value.trim() || null;
-      }
-      if (formData.anaesthesiaTechnique.includes('RA')) {
-        formData.raText = document.getElementById('raText').value.trim() || null;
-      }
-      if (formData.placeIncident === 'others') {
-        formData.placeIncidentOthersText = document.getElementById('placeIncidentOthersText').value.trim() || null;
-      }
-      if (formData.phaseAnaesthesia === 'others') {
-        formData.phaseOthersText = document.getElementById('phaseOthersText').value.trim() || null;
-      }
-      if (formData.detectionIncident === 'others') {
-        formData.detectionOthersText = document.getElementById('detectionOthersText').value.trim() || null;
-      }
-      if (formData.surgicalCategory === 'others') {
-        formData.surgicalOthersText = document.getElementById('surgicalOthersText').value.trim() || null;
-      }
-      if (formData.patientOutcome.includes('others')) {
-        formData.outcomeOthersText = document.getElementById('outcomeOthersText').value.trim() || null;
-      }
-      if (formData.factorCausing.includes('others')) {
-        formData.factorOthersText = document.getElementById('factorOthersText').value.trim() || null;
-      }
-      if (formData.preventionMethods.includes('others')) {
-        formData.preventionOthersText = document.getElementById('preventionOthersText').value.trim() || null;
-      }
+        if (formData.place === 'others') {
+            formData.placeOthersText = document.getElementById('placeOthersText').value.trim() || null;
+        }
+        if (formData.anaesthesiaTechnique.includes('RA')) {
+            formData.raText = document.getElementById('raText').value.trim() || null;
+        }
+        if (formData.placeIncident === 'others') {
+            formData.placeIncidentOthersText = document.getElementById('placeIncidentOthersText').value.trim() || null;
+        }
+        if (formData.phaseAnaesthesia === 'others') {
+            formData.phaseOthersText = document.getElementById('phaseOthersText').value.trim() || null;
+        }
+        if (formData.detectionIncident === 'others') {
+            formData.detectionOthersText = document.getElementById('detectionOthersText').value.trim() || null;
+        }
+        if (formData.surgicalCategory === 'others') {
+            formData.surgicalOthersText = document.getElementById('surgicalOthersText').value.trim() || null;
+        }
+        if (formData.patientOutcome.includes('others')) {
+            formData.outcomeOthersText = document.getElementById('outcomeOthersText').value.trim() || null;
+        }
+        if (formData.factorCausing.includes('others')) {
+            formData.factorOthersText = document.getElementById('factorOthersText').value.trim() || null;
+        }
+        if (formData.preventionMethods.includes('others')) {
+            formData.preventionOthersText = document.getElementById('preventionOthersText').value.trim() || null;
+        }
 
-      return formData;
+        return formData;
     }
 
     document.getElementById('cirForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const password = document.getElementById('encPassword').value;
-      if (!password) {
-        alert('Encryption password is required.');
-        return;
-      }
-
-      const formData = collectFormData();
-
-      formData.formType = 'doctor';
-
-      const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(formData), password).toString();
-
-      // Change: send to backend API - update API_URL as needed
-      const API_URL = 'https://api-gm7mkhepka-uc.a.run.app/api/records';
-
-      fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ encryptedData: ciphertext })
-      }).then(res => {
-        if (res.ok) {
-          alert('Data encrypted and saved to backend successfully!');
-          this.reset();
-
-          // Hide all free-text fields after reset
-          ['placeOthersText', 'raText', 'placeIncidentOthersText', 'phaseOthersText', 'detectionOthersText', 'surgicalOthersText', 'outcomeOthersText', 'factorOthersText', 'preventionOthersText'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'none';
-          });
-
-        } else {
-          alert('Failed to save data to backend.');
+        e.preventDefault();
+        const password = document.getElementById('encPassword').value;
+        if (!password) {
+            alert('Encryption password is required.');
+            return;
         }
-      }).catch(() => {
-        alert('Failed to connect to backend.');
-      });
+
+        const formData = collectFormData();
+
+        formData.formType = 'doctor';
+
+        const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(formData), password).toString();
+
+        // Change: send to backend API - update API_URL as needed
+        const API_URL = 'https://api-gm7mkhepka-uc.a.run.app/api/records';
+
+        fetch(API_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({encryptedData: ciphertext})
+        }).then(res => {
+            if (res.ok) {
+                alert('Data encrypted and saved to backend successfully!');
+                this.reset();
+
+                // Hide all free-text fields after reset
+                ['placeOthersText', 'raText', 'placeIncidentOthersText', 'phaseOthersText', 'detectionOthersText', 'surgicalOthersText', 'outcomeOthersText', 'factorOthersText', 'preventionOthersText'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+
+            } else {
+                alert('Failed to save data to backend.');
+            }
+        }).catch(() => {
+            alert('Failed to connect to backend.');
+        });
     });
-  </script>
+</script>
 </body>
 
 </html>
